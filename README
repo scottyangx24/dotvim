@@ -1,9 +1,15 @@
 Installation:
 
-    git clone git://github.com/scottyangx24/dotvim.git ~/.vim
+    1, git clone git://github.com/scottyangx24/dotvim.git ~/.vim
+    2, need to rebuild commandT plugin
+       cd .vim/bundle/vim-commandt/ruby/command-t
+       ruby extconf.rb
+       make
+    
 
 Create symlinks:
 
     ln -s ~/.vim/vimrc ~/.vimrc
     ln -s ~/.vim/gvimrc ~/.gvimrc
+
 
