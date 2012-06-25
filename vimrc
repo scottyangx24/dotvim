@@ -205,6 +205,10 @@ hi MatchParen cterm=bold ctermbg=22 ctermfg=none
 " nnoremap j gj
 " nnoremap k gk
 
+" often times I hit Q instead of q when quit vim
+" this should fix the issue.
+ command! -bang Q q<bang>
+
 " Fast editing of the .vimrc
 map <leader>e :e! ~/.vimrc<cr>
 autocmd! bufwritepost .vimrc source ~/.vimrc
