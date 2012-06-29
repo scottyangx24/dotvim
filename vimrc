@@ -154,10 +154,10 @@ let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 """"""""""""""""""""""""""""""
 " => Visual mode related
 """"""""""""""""""""""""""""""
-" Really useful!
-"  In visual mode when you press * or # to search for the current selection
+" In visual mode when you press * or # to search for the current selection
 vnoremap <silent> * :call VisualSearch('f')<CR>
 vnoremap <silent> # :call VisualSearch('b')<CR>
+" In visual mode when you press <leader>F to search for the current selection in many files.
 vnoremap <silent> <leader>F :call VisualSearch('gv')<CR>
 
 function! CmdLine(str)
@@ -177,7 +177,7 @@ function! VisualSearch(direction) range
     if a:direction == 'b'
         execute "normal ?" . l:pattern . "^M"
     elseif a:direction == 'gv'
-        call CmdLine("Ack! -aiw " . l:pattern . "<CR>")
+        call CmdLine("Ack! -aiw \"" . l:pattern . "\" <CR>")
     elseif a:direction == 'f'
         execute "normal /" . l:pattern . "^M"
     endif
@@ -200,16 +200,16 @@ hi MatchParen cterm=bold ctermbg=22 ctermfg=none
 " mapping stuff
 """""""""""""""""""""""""""""
 " disable arrow key in Normal/Insert Mode
-" nnoremap <up> <nop>
-" nnoremap <down> <nop>
-" nnoremap <left> <nop>
-" nnoremap <right> <nop>
-" inoremap <up> <nop>
-" inoremap <down> <nop>
-" inoremap <left> <nop>
-" inoremap <right> <nop>
-" nnoremap j gj
-" nnoremap k gk
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+inoremap <left> <nop>
+inoremap <right> <nop>
+nnoremap j gj
+nnoremap k gk
 
 " often times I hit Q instead of q when quit vim
 " this should fix the issue.
@@ -327,9 +327,9 @@ noremap <F9> :set hlsearch! hlsearch?<CR>
 
 
 "-----------------------------------------------------------------------------
-" mapping for ack-grep
+" mapping for ack-grep, searching for word under cursor
 "-----------------------------------------------------------------------------
-nnoremap <leader>F :Ack! -iaw <C-R><C-W><CR>
+nnoremap <leader>F :Ack! -aiw <C-R><C-W><CR>
 
 "-----------------------------------------------------------------------------
 "Enable and disable mouse use
