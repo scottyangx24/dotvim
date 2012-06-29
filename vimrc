@@ -1,4 +1,4 @@
-" Pathogen
+
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
 
@@ -158,6 +158,7 @@ let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 "  In visual mode when you press * or # to search for the current selection
 vnoremap <silent> * :call VisualSearch('f')<CR>
 vnoremap <silent> # :call VisualSearch('b')<CR>
+vnoremap <silent> <leader>F :call VisualSearch('gv')<CR>
 
 function! CmdLine(str)
     exe "menu Foo.Bar :" . a:str
@@ -176,7 +177,7 @@ function! VisualSearch(direction) range
     if a:direction == 'b'
         execute "normal ?" . l:pattern . "^M"
     elseif a:direction == 'gv'
-        call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
+        call CmdLine("Ack! -aiw " . l:pattern . "<CR>")
     elseif a:direction == 'f'
         execute "normal /" . l:pattern . "^M"
     endif
@@ -328,7 +329,7 @@ noremap <F9> :set hlsearch! hlsearch?<CR>
 "-----------------------------------------------------------------------------
 " mapping for ack-grep
 "-----------------------------------------------------------------------------
-nnoremap <F10> :Ack! -iaw <C-R><C-W><CR>
+nnoremap <leader>F :Ack! -iaw <C-R><C-W><CR>
 
 "-----------------------------------------------------------------------------
 "Enable and disable mouse use
