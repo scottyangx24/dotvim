@@ -70,6 +70,8 @@ set hidden
 " deleting the text and replacing it
 set cpoptions=cesB$
 
+" set ctrlp path
+set runtimepath^=~/.vim/bundle/ctrlp.vim
 
 " Always display the status line, even if only one window is displayed
 " Custom status line display
@@ -145,6 +147,9 @@ set clipboard=unnamed
 
 " option for clang complete
 let g:clang_user_options='|| exit 0'
+
+"use ack.vim
+let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
@@ -247,8 +252,8 @@ nmap <leader>cc :cclose<CR>
 " to directory of current file - http://vimcasts.org/e/14
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
 
-map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
-map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
+map <leader>f :CtrlP<cr>
+map <leader>b :CtrlPBuffer<cr>
 
 " switch between current buffer and the previous one.
 nnoremap <leader><leader> <c-^>
@@ -321,9 +326,9 @@ noremap <F9> :set hlsearch! hlsearch?<CR>
 
 
 "-----------------------------------------------------------------------------
-" mapping for vimgrep
+" mapping for ack-grep
 "-----------------------------------------------------------------------------
-map <F10> :execute "vimgrep /" . expand("<cword>") . "/j **/*.cpp **/*.h" <Bar> cw<CR>
+nnoremap <F10> :Ack! -iaw <C-R><C-W><CR>
 
 "-----------------------------------------------------------------------------
 "Enable and disable mouse use
