@@ -151,6 +151,11 @@ let g:clang_user_options='|| exit 0'
 "use ack.vim
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 
+" options for CtrlP
+let g:ctrlp_working_path_mode = 0
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.jpg,*.mov
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
+
 """"""""""""""""""""""""""""""
 " => Visual mode related
 """"""""""""""""""""""""""""""
