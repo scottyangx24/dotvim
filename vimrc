@@ -153,8 +153,19 @@ let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 
 " options for CtrlP
 let g:ctrlp_working_path_mode = 0
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.jpg,*.mov
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
+let g:ctrlp_user_command = 'find %s -type f 
+            \  -iname "*.php" 
+            \  -o -iname "*.phtml"     
+            \  -o -iname "*.html"     
+            \  -o -iname "*.css"     
+            \  -o -iname "*.js"     
+            \  -o -iname "*.rb"     
+            \  -o -iname "*.sql"     
+            \  -o -iname "*.py"     
+            \  -o -iname "*.h"     
+            \  -o -iname "*.c"     
+            \  -o -iname "*.hpp"     
+            \  -o -iname "*.cpp"'     
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
@@ -260,6 +271,7 @@ cnoremap %% <C-R>=expand('%:h').'/'<cr>
 
 map <leader>f :CtrlP<cr>
 map <leader>b :CtrlPBuffer<cr>
+map <leader>m :CtrlPMRU<cr>
 
 " switch between current buffer and the previous one.
 nnoremap <leader><leader> <c-^>
