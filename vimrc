@@ -193,7 +193,7 @@ function! VisualSearch(direction) range
     if a:direction == 'b'
         execute "normal ?" . l:pattern . "^M"
     elseif a:direction == 'gv'
-        call CmdLine("Ack! -aiw \"" . l:pattern . "\" <CR>")
+        call CmdLine("Ack! -iw -nobinary \"" . l:pattern . "\" <CR>")
     elseif a:direction == 'f'
         execute "normal /" . l:pattern . "^M"
     endif
@@ -346,7 +346,7 @@ noremap <F9> :set hlsearch! hlsearch?<CR>
 "-----------------------------------------------------------------------------
 " mapping for ack-grep, searching for word under cursor
 "-----------------------------------------------------------------------------
-nnoremap <leader>F :Ack! -aiw <C-R><C-W><CR>
+nnoremap <leader>F :Ack! -iw --nobinary <C-R><C-W><CR>
 
 "-----------------------------------------------------------------------------
 "Enable and disable mouse use
