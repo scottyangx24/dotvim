@@ -152,7 +152,9 @@ let g:clang_user_options='|| exit 0'
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 
 " options for CtrlP
-let g:ctrlp_working_path_mode = 0
+let g:ctrlp_regexp = 1
+let g:ctrlp_max_height = 10
+let g:ctrlp_working_path_mode = ''
 let g:ctrlp_user_command = 'find %s -type f 
             \  -iname "*.php" 
             \  -o -iname "*.phtml"     
@@ -165,6 +167,7 @@ let g:ctrlp_user_command = 'find %s -type f
             \  -o -iname "*.h"     
             \  -o -iname "*.c"     
             \  -o -iname "*.hpp"     
+            \  -o -iname "*.java"     
             \  -o -iname "*.cpp"'     
 
 """"""""""""""""""""""""""""""
@@ -216,20 +219,20 @@ hi MatchParen cterm=bold ctermbg=22 ctermfg=none
 " mapping stuff
 """""""""""""""""""""""""""""
 " disable arrow key in Normal/Insert Mode
-nnoremap <up> <nop>
-nnoremap <down> <nop>
-nnoremap <left> <nop>
-nnoremap <right> <nop>
-inoremap <up> <nop>
-inoremap <down> <nop>
-inoremap <left> <nop>
-inoremap <right> <nop>
-nnoremap j gj
-nnoremap k gk
+"nnoremap <up> <nop>
+"nnoremap <down> <nop>
+"nnoremap <left> <nop>
+"nnoremap <right> <nop>
+"inoremap <up> <nop>
+"inoremap <down> <nop>
+"inoremap <left> <nop>
+"inoremap <right> <nop>
+"nnoremap j gj
+"nnoremap k gk
 
 " often times I hit Q instead of q when quit vim
 " this should fix the issue.
- command! -bang Q q<bang>
+command! -bang Q q<bang>
 
 " Fast editing of the .vimrc
 map <leader>e :e! ~/.vimrc<cr>
@@ -313,7 +316,7 @@ imap <silent> <F4> <Esc> :tabrewind<CR>
 "" NERD Tree Plugin Settings
 "-----------------------------------------------------------------------------
 "" Toggle the NERD Tree on an off with F5
-nmap <F5> :NERDTreeToggle<CR>
+nmap <F5> :NERDTreeFind<CR>
 
 " Close the NERD Tree with Shift-F5
 nmap <S-F5> :NERDTreeClose<CR>
@@ -364,6 +367,82 @@ function! ToggleMouse()
     endif
 endfunction
 
+"-----------------------------------------------------------------------------
+"cscope setting
+"-----------------------------------------------------------------------------
+if has("cscope")
+
+    " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
+    "set cscopetag
+
+    " check cscope for definition of a symbol before checking ctags: set to 1
+    " if you want the reverse search order.
+    "set csto=0
+
+    " show msg when any other cscope db added
+    set cscopeverbose  
+
+    """"""""""""" My cscope/vim key mappings
+    "
+    " The following maps all invoke one of the following cscope search types:
+    "
+    "   's'   symbol: find all references to the token under cursor
+    "   'g'   global: find global definition(s) of the token under cursor
+    "   'c'   calls:  find all calls to the function name under cursor
+    "   't'   text:   find all instances of the text under cursor
+    "   'e'   egrep:  egrep search for the word under cursor
+    "   'f'   file:   open the filename under cursor
+    "   'i'   includes: find files that include the filename under cursor
+    "   'd'   called: find functions that function under cursor calls
+    "
+    " Below are three sets of the maps: one set that just jumps to your
+    " search result, one that splits the existing vim window horizontally and
+    " diplays your search result in the new window, and one that does the same
+    " thing, but does a vertical split instead (vim 6 only).
+    "
+    " I've used CTRL-\ and CTRL-@ as the starting keys for these maps, as it's
+    " unlikely that you need their default mappings (CTRL-\'s default use is
+    " as part of CTRL-\ CTRL-N typemap, which basically just does the same
+    " thing as hitting 'escape': CTRL-@ doesn't seem to have any default use).
+    " If you don't like using 'CTRL-@' or CTRL-\, , you can change some or all
+    " of these maps to use other keys.  One likely candidate is 'CTRL-_'
+    " (which also maps to CTRL-/, which is easier to type).  By default it is
+    " used to switch between Hebrew and English keyboard mode.
+    "
+    " All of the maps involving the <cfile> macro use '^<cfile>$': this is so
+    " that searches over '#include <time.h>" return only references to
+    " 'time.h', and not 'sys/time.h', etc. (by default cscope will return all
+    " files that contain 'time.h' as part of their name).
+
+
+    " To do the first type of search, hit 'CTRL-\', followed by one of the
+    " cscope search types above (s,g,c,t,e,f,i,d).  The result of your cscope
+    " search will be displayed in the current window.  You can use CTRL-T to
+    " go back to where you were before the search.  
+    "
+
+    "nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>  
+    "nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>  
+    nmap <C-\> :cs find c <C-R>=expand("<cword>")<CR><CR>  
+    "nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>  
+    "nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>  
+    "nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>  
+    "nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+    "nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>  
+
+endif
+
+
+function! LoadCscope()
+  let db = findfile("cscope.out", ".;")
+  if (!empty(db))
+    let path = strpart(db, 0, match(db, "/cscope.out$"))
+    set nocscopeverbose " suppress 'duplicate connection' error
+    exe "cs add " . db . " " . path
+    set cscopeverbose
+  endif
+endfunction
+au BufEnter /* call LoadCscope()
 
 "-----------------------------------------------------------------------------
 " Fix constant spelling mistakes
