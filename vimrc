@@ -145,9 +145,6 @@ set wrapscan
 " set the clipboard
 set clipboard=unnamed
 
-" option for clang complete
-let g:clang_user_options='|| exit 0'
-
 "use ack.vim
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 
