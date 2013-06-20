@@ -102,6 +102,33 @@ colorscheme molokai
 syntax on
 
 
+" ==============================================================
+" Buffer manipulation
+" =============================================================
+
+" Allow buffers to be hidden even if they have changes.
+set hidden
+
+" =============================================================
+" Paste setup
+" =============================================================
+
+" Setup a key to toggle "paste" mode (toggles between :set paste
+" and :set nopaste by executing :set invpaste).
+nmap <silent> <F8> :set invpaste<CR>:set paste?<CR>   
+
+" Change default from unnamed register ('"') to the primary selection
+" register ("*") for general yank and put operations. Avoid autoselect mode.
+" Inspired by Tip #21.  Notice also you can append to a register and then
+" assign it to the primary selection (@*) or the clipboard (@+).  E.g.:
+"   :let @*=@a
+set clipboard=unnamed
+
+" =============================================================
+" not yet grouped 
+" =============================================================
+
+
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
 let mapleader = ","
@@ -125,11 +152,6 @@ set listchars=trail:·,tab:▸\ ,eol:¬
 "set backspace=2
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
-
-
-" Make sure that unsaved buffers that are to be put in the background are
-" allowed to go in there (ie. the "must save first" error doesn't come up)
-set hidden
 
 
 " Make the 'cw' and like commands put a $ at the end instead of just
@@ -191,11 +213,6 @@ set smartindent
 " Enable use of the mouse for all modes
 set mouse=a
 
-
-" Look in the current directory for tags, if not found, go up the tree.
-set tags=./tags;/
-
-
 " set searching highlighting
 set hlsearch
 
@@ -203,8 +220,6 @@ set hlsearch
 " set the search scan to wrap lines
 set wrapscan
 
-" set the clipboard
-set clipboard=unnamed
 
 "use ack.vim
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
@@ -272,6 +287,12 @@ endif
 
 " set matching bracket to different color
 hi MatchParen cterm=bold ctermbg=22 ctermfg=none
+
+" =============================================================
+" not yet grouped End 
+" =============================================================
+
+
 
 """""""""""""""""""""""""""""
 " mapping stuff
@@ -371,34 +392,6 @@ imap <silent> <F4> <Esc> :tabrewind<CR>
 
 
 "-----------------------------------------------------------------------------
-"" NERD Tree Plugin Settings
-"-----------------------------------------------------------------------------
-"" Toggle the NERD Tree on an off with F5
-nmap <F5> :NERDTreeFind<CR>
-
-" Close the NERD Tree with Shift-F5
-nmap <S-F5> :NERDTreeClose<CR>
-
-" Don't display these kinds of files
-let NERDTreeIgnore=[ '\.ncb$', '\.suo$', '\.vcproj\.RIMNET', '\.obj$',
-                     \ '\.ilk$', '^BuildLog.htm$', '\.pdb$', '\.idb$',
-                     \ '\.embed\.manifest$', '\.embed\.manifest.res$',
-                     \ '\.intermediate\.manifest$', '^mt.dep$' ]
-
-
-"-----------------------------------------------------------------------------
-"" Taglist Plugin Settings
-"-----------------------------------------------------------------------------
-nnoremap <silent> <F6> :TlistToggle<CR>
-let Tlist_Use_Right_Window = 1
-
-"-----------------------------------------------------------------------------
-" Pressing F8 to toggle paste mode
-"-----------------------------------------------------------------------------
-nmap <silent> <F8> :set invpaste<CR>:set paste?<CR>
-
-
-"-----------------------------------------------------------------------------
 " Press F9 to toggle highlighting on/off, and show current value.
 "-----------------------------------------------------------------------------
 noremap <F9> :set hlsearch! hlsearch?<CR>
@@ -409,21 +402,49 @@ noremap <F9> :set hlsearch! hlsearch?<CR>
 "-----------------------------------------------------------------------------
 nnoremap <leader>F :Ack! -iw --nobinary <C-R><C-W><CR>
 
-"-----------------------------------------------------------------------------
-"Enable and disable mouse use
-"-----------------------------------------------------------------------------
-noremap <F12> :call ToggleMouse() <CR>
-function! ToggleMouse()
-    if &mouse == 'a'
-        set mouse=
-        set nonumber
-        echo "Mouse usage disabled"
-    else
-        set mouse=a
-        set number
-        echo "Mouse usage enabled"
-    endif
-endfunction
+"-----------------------------------------------------------------------------                            
+"Enable and disable mouse use                                                                             
+"-----------------------------------------------------------------------------                            
+noremap <F12> :call ToggleMouse() <CR>                                                                    
+function! ToggleMouse()                                                                                   
+    if &mouse == 'a'                                                                                      
+        set mouse=                                                                                        
+        set nonumber                                                                                      
+        echo "Mouse usage disabled"                                                                       
+    else                                                                                                  
+        set mouse=a                                                                                       
+        set number                                                                                        
+        echo "Mouse usage enabled"                                                                        
+    endif                                                                                                 
+endfunction          
+
+" =============================================================
+" Tags
+" =============================================================
+
+" The semicolon gives permission to search up toward the root
+" directory.  When followed by a path, the upward search terminates
+" at this "stop directory"; otherwise, the search terminates at the root.
+" Relative paths starting with "./" begin at Vim's current
+" working directory or the directory of the currently open file.
+" See :help file-searching for more details.
+"
+" Additional directories may be added, e.g.:
+" set tags+=/usr/local/share/ctags/qt4
+"
+" Start at working directory or directory of currently open file
+" and search upward, stopping at $HOME.  Secondly, search for a
+" tags file upward from the current working directory, but stop
+" at $HOME.
+set tags=./tags;$HOME,tags;$HOME
+
+" Use the following settings in a .ctags file.  With the
+" --extra=+f, filenames are tags, too, so the following
+" mappings will work when a file isn't in the path.
+nnoremap <expr> gf empty(taglist(expand('<cfile>'))) ?
+            \ "gf" : ":ta <C-r><C-f><CR>"
+nnoremap <expr> <C-w>f empty(taglist(expand('<cfile>'))) ?
+            \ "\<C-w>f" : ":stj <C-r><C-f><CR>"
 
 "-----------------------------------------------------------------------------
 "cscope setting
@@ -533,3 +554,32 @@ iab seperate  separate
 iab Seperate  Separate
 iab fone      phone
 iab Fone      Phone
+
+
+" =============================================================
+" Plugins
+" =============================================================
+
+"-----------------------------------------------------------------------------
+"" NERD Tree Plugin Settings
+"-----------------------------------------------------------------------------
+"" Toggle the NERD Tree on an off with F5
+nmap <F5> :NERDTreeFind<CR>
+
+" Close the NERD Tree with Shift-F5
+nmap <S-F5> :NERDTreeClose<CR>
+
+" Don't display these kinds of files
+let NERDTreeIgnore=[ '\.ncb$', '\.suo$', '\.vcproj\.RIMNET', '\.obj$',
+                     \ '\.ilk$', '^BuildLog.htm$', '\.pdb$', '\.idb$',
+                     \ '\.embed\.manifest$', '\.embed\.manifest.res$',
+                     \ '\.intermediate\.manifest$', '^mt.dep$' ]
+
+
+
+"-----------------------------------------------------------------------------
+"" Taglist Plugin Settings
+"-----------------------------------------------------------------------------
+nnoremap <silent> <F6> :TlistToggle<CR>
+let Tlist_Use_Right_Window = 1
+
