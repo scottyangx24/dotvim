@@ -1,16 +1,100 @@
-
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-call pathogen#infect()
-
 " Disable compatibility with vi.
 set nocompatible
 
 
-" Set filetype stuff to on
-filetype on
-filetype plugin on
-filetype indent on
+" -------------------------------------------------------------
+" Pathogen plugin management
+" -------------------------------------------------------------
+runtime bundle/vim-pathogen/autoload/pathogen.vim
+call pathogen#infect()
 
+
+" Keep some stuff in the history
+set history=500
+
+" Automatically re-read files that have changed as long as there
+" are no outstanding edits in the buffer.
+set autoread
+
+
+" Configure mapping timeout in milliseconds (default 1000).
+" Controls how long Vim waits for partially complete mapping
+" before timing out and using prefix directly.
+set timeoutlen=3000
+
+
+" Configure keycode timeout in milliseconds (default -1).
+" Controls how long Vim waits for partially complete
+" keycodes (such as <ESC>OH which is the <Home> key).
+" If negative, uses 'timeoutlen'.
+" Note that in insert mode, there is a special-case hack in the Vim
+" source that checks for <Esc> and if there are no additional characters
+" immediately waiting, Vim pretends to leave insert mode immediately.
+" But Vim is still waiting for 'ttimeoutlen' milliseconds for keycodes,
+" so if in insert mode you press <Esc>OH in console Vim (on Linux) within
+" 'ttimeoutlen' milliseconds, you'll get <Home> instead of opening a new
+" line above and inserting "H".
+" Note: 120 words per minute ==> 10 character per second ==> 100 ms between,
+" and 50 ms ==> 240 words per minute.
+" Also, Tim Pope's vim-sensible plugin uses 50 ms as a reasonable value.
+set ttimeoutlen=50
+
+
+" Configure special terminal keys.
+runtime termsupport.vim
+
+
+" Disallow octal numbers for increment/decrement (CTRL-A/CTRL-X).
+set nrformats-=octal
+
+
+" =============================================================
+" File settings
+" =============================================================
+
+" Where file browser's directory should begin:
+"   last    - same directory as last file browser
+"   buffer  - directory of the related buffer
+"   current - current directory (pwd)
+"   {path}  - specified directory
+set browsedir=buffer
+
+" Use utf-8 encoding for all content.
+set encoding=utf-8
+
+" 'fileencodings' contains a list of possible encodings to try when reading
+" a file.  When 'encoding' is a unicode value (such as utf-8), the
+" value of fileencodings defaults to ucs-bom,utf-8,default,latin1.
+"   ucs-bom  Treat as unicode-encoded file if and only if BOM is present
+"   utf-8    Use utf-8 encoding
+"   default  Value from environment LANG
+"   latin1   8-bit encoding typical of DOS
+" Setting this value explicitly, though to the default value.
+set fileencodings=ucs-bom,utf-8,default,latin1
+
+" Set filetype stuff to on
+filetype plugin indent on
+
+
+" =============================================================
+" Display settings
+" =============================================================
+
+" Display the cursor position on the last line of the screen or in the status
+" line of a window
+set ruler
+
+" Display line number in front of each line in the left margin.
+set number
+
+" set visual bell -- i hate that damned beeping
+set visualbell
+
+" Make command line two lines high
+set cmdheight=2
+
+" Display commands in the bottom right corner as they are typed.
+set showcmd
 
 " Enable syntax highlighting
 set t_Co=256
@@ -28,27 +112,9 @@ let g:mapleader = ","
 " Set 7 lines to the curors - when moving vertical..
 set so=7
 
-
-" Display line number in front of each line in the left margin.
-set number
-
-
-" Display the cursor position on the last line of the screen or in the status
-" line of a window
-set ruler
-
-
 " Enable enhanced command-line completion. Presumes you have compiled
 " with +wildmenu.  See :help 'wildmenu'
 set wildmenu
-
-
-" Make command line two lines high
-set ch=2
-
-
-" set visual bell -- i hate that damned beeping
-set vb
 
 " show tailing
 "set listchars=trail:·
@@ -101,17 +167,12 @@ endfunction
 set ignorecase
 set smartcase
 
-" Display commands in the bottom right corner as they are typed.
-set showcmd
 
 " Show the current mode
 set showmode
 
 " Show briefly matching bracket when closing it.
 set showmatch
-
-" Keep some stuff in the history
-set history=100
 
 " Number of spaces used for indenting.
 " Number of spaces to insert for a tab.
