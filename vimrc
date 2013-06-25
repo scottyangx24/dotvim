@@ -2,9 +2,9 @@
 set nocompatible
 
 
-" -------------------------------------------------------------
+" =============================================================
 " Pathogen plugin management
-" -------------------------------------------------------------
+" =============================================================
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
 
@@ -125,6 +125,53 @@ nmap <silent> <F8> :set invpaste<CR>:set paste?<CR>
 set clipboard=unnamed
 
 " =============================================================
+" Search related setup
+" =============================================================
+
+" Use case insensitive search, except when using capital letters
+set ignorecase
+set smartcase
+
+" set searching highlighting
+set hlsearch
+
+" In visual mode when you press * or # to search for the current selection
+vnoremap <silent> * :call VisualSearch('f')<CR>
+vnoremap <silent> # :call VisualSearch('b')<CR>
+" In visual mode when you press <leader>F to search for the current selection in many files.
+vnoremap <silent> <leader>F :call VisualSearch('gv')<CR>
+
+function! CmdLine(str)
+    exe "menu Foo.Bar :" . a:str
+    emenu Foo.Bar
+    unmenu Foo
+endfunction
+
+" From an idea by Michael Naumann
+function! VisualSearch(direction) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", '\\/.*$^~[]')
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'b'
+        execute "normal ?" . l:pattern . "^M"
+    elseif a:direction == 'gv'
+        call CmdLine("Ack! -iw -nobinary \"" . l:pattern . "\" <CR>")
+    elseif a:direction == 'f'
+        execute "normal /" . l:pattern . "^M"
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
+
+" =============================================================
+" Behavior setup
+" =============================================================
+"
+" =============================================================
 " not yet grouped 
 " =============================================================
 
@@ -183,13 +230,6 @@ function! HasPaste()
     endif
 endfunction
 
-
-
-" Use case insensitive search, except when using capital letters
-set ignorecase
-set smartcase
-
-
 " Show the current mode
 set showmode
 
@@ -213,8 +253,6 @@ set smartindent
 " Enable use of the mouse for all modes
 set mouse=a
 
-" set searching highlighting
-set hlsearch
 
 
 " set the search scan to wrap lines
@@ -224,59 +262,6 @@ set wrapscan
 "use ack.vim
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 
-" options for CtrlP
-let g:ctrlp_regexp = 1
-let g:ctrlp_max_height = 10
-let g:ctrlp_working_path_mode = ''
-let g:ctrlp_user_command = 'find %s -type f 
-            \  -iname "*.php" 
-            \  -o -iname "*.phtml"     
-            \  -o -iname "*.html"     
-            \  -o -iname "*.css"     
-            \  -o -iname "*.js"     
-            \  -o -iname "*.rb"     
-            \  -o -iname "*.sql"     
-            \  -o -iname "*.py"     
-            \  -o -iname "*.h"     
-            \  -o -iname "*.c"     
-            \  -o -iname "*.hpp"     
-            \  -o -iname "*.java"     
-            \  -o -iname "*.cpp"'     
-
-""""""""""""""""""""""""""""""
-" => Visual mode related
-""""""""""""""""""""""""""""""
-" In visual mode when you press * or # to search for the current selection
-vnoremap <silent> * :call VisualSearch('f')<CR>
-vnoremap <silent> # :call VisualSearch('b')<CR>
-" In visual mode when you press <leader>F to search for the current selection in many files.
-vnoremap <silent> <leader>F :call VisualSearch('gv')<CR>
-
-function! CmdLine(str)
-    exe "menu Foo.Bar :" . a:str
-    emenu Foo.Bar
-    unmenu Foo
-endfunction
-
-" From an idea by Michael Naumann
-function! VisualSearch(direction) range
-    let l:saved_reg = @"
-    execute "normal! vgvy"
-
-    let l:pattern = escape(@", '\\/.*$^~[]')
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
-
-    if a:direction == 'b'
-        execute "normal ?" . l:pattern . "^M"
-    elseif a:direction == 'gv'
-        call CmdLine("Ack! -iw -nobinary \"" . l:pattern . "\" <CR>")
-    elseif a:direction == 'f'
-        execute "normal /" . l:pattern . "^M"
-    endif
-
-    let @/ = l:pattern
-    let @" = l:saved_reg
-endfunction
 
 " if in diff mode (vimdiff) use the peaksea color scheme
 if &diff
@@ -286,7 +271,7 @@ if &diff
 endif
 
 " set matching bracket to different color
-hi MatchParen cterm=bold ctermbg=22 ctermfg=none
+hi MatchParen cterm=bold ctermbg=10 ctermfg=none
 
 " =============================================================
 " not yet grouped End 
@@ -446,9 +431,11 @@ nnoremap <expr> gf empty(taglist(expand('<cfile>'))) ?
 nnoremap <expr> <C-w>f empty(taglist(expand('<cfile>'))) ?
             \ "\<C-w>f" : ":stj <C-r><C-f><CR>"
 
-"-----------------------------------------------------------------------------
-"cscope setting
-"-----------------------------------------------------------------------------
+
+
+" =============================================================
+" Cscope setting
+" =============================================================
 if has("cscope")
 
     " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
@@ -523,6 +510,8 @@ function! LoadCscope()
 endfunction
 au BufEnter /* call LoadCscope()
 
+
+
 "-----------------------------------------------------------------------------
 " Fix constant spelling mistakes
 "-----------------------------------------------------------------------------
@@ -584,8 +573,9 @@ nnoremap <silent> <F6> :TlistToggle<CR>
 let Tlist_Use_Right_Window = 1
 
 
+
 "-----------------------------------------------------------------------------
-"" Taglist Plugin Settings
+"" RainbowParentheses Plugin Settings
 "-----------------------------------------------------------------------------
 let g:rbpt_colorpairs = [
     \ ['brown',       'RoyalBlue3'],
@@ -613,4 +603,28 @@ let g:rbpt_loadcmd_toggle = 0
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
+"au Syntax * RainbowParenthesesLoadBraces
+
+
+
+"-----------------------------------------------------------------------------
+"" ctrlP Plugin Settings
+"-----------------------------------------------------------------------------
+let g:ctrlp_regexp = 1
+let g:ctrlp_max_height = 10
+let g:ctrlp_working_path_mode = ''
+let g:ctrlp_user_command = 'find %s -type f 
+            \  -iname "*.php" 
+            \  -o -iname "*.phtml"     
+            \  -o -iname "*.html"     
+            \  -o -iname "*.css"     
+            \  -o -iname "*.js"     
+            \  -o -iname "*.rb"     
+            \  -o -iname "*.sql"     
+            \  -o -iname "*.py"     
+            \  -o -iname "*.h"     
+            \  -o -iname "*.c"     
+            \  -o -iname "*.hpp"     
+            \  -o -iname "*.java"     
+            \  -o -iname "*.cpp"'     
+
