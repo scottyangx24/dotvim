@@ -139,79 +139,6 @@ set listchars=trail:·,nbsp:·,extends:>,precedes:<,tab:▸\ ,eol:¬
 
 
 
-" ==============================================================
-" Buffer manipulation
-" =============================================================
-
-" Allow buffers to be hidden even if they have changes.
-set hidden
-
-
-" =============================================================
-" Paste setup
-" =============================================================
-
-" Setup a key to toggle "paste" mode (toggles between :set paste
-" and :set nopaste by executing :set invpaste).
-nmap <silent> <F8> :set invpaste<CR>:set paste?<CR>   
-
-" Change default from unnamed register ('"') to the primary selection
-" register ("*") for general yank and put operations. Avoid autoselect mode.
-" Inspired by Tip #21.  Notice also you can append to a register and then
-" assign it to the primary selection (@*) or the clipboard (@+).  E.g.:
-"   :let @*=@a
-set clipboard=unnamed
-
-
-" =============================================================
-" Search related setup
-" =============================================================
-
-" Setup n and N for browsing to next or previous search match with automatic
-" scrolling to the center of the window.
-nnoremap n      nzz
-nnoremap N      Nzz
-
-" Use case insensitive search, except when using capital letters
-set ignorecase
-set smartcase
-
-" set searching highlighting
-set hlsearch
-
-" In visual mode when you press * or # to search for the current selection
-vnoremap <silent> * :call VisualSearch('f')<CR>
-vnoremap <silent> # :call VisualSearch('b')<CR>
-" In visual mode when you press <leader>F to search for the current selection in many files.
-vnoremap <silent> <leader>F :call VisualSearch('gv')<CR>
-
-function! CmdLine(str)
-    exe "menu Foo.Bar :" . a:str
-    emenu Foo.Bar
-    unmenu Foo
-endfunction
-
-" From an idea by Michael Naumann
-function! VisualSearch(direction) range
-    let l:saved_reg = @"
-    execute "normal! vgvy"
-
-    let l:pattern = escape(@", '\\/.*$^~[]')
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
-
-    if a:direction == 'b'
-        execute "normal ?" . l:pattern . "^M"
-    elseif a:direction == 'gv'
-        call CmdLine("Ack! -iw -nobinary \"" . l:pattern . "\" <CR>")
-    elseif a:direction == 'f'
-        execute "normal /" . l:pattern . "^M"
-    endif
-
-    let @/ = l:pattern
-    let @" = l:saved_reg
-endfunction
-
-
 " =============================================================
 " Behavior setup
 " =============================================================
@@ -270,6 +197,122 @@ set wildignore+=*.ko,*.mod.c,*.order,modules.builtin
 " Ignore some java-related files.
 set wildignore+=*.class,classes/**,*.jar
 
+" -------------------------------------------------------------
+" Completion
+" -------------------------------------------------------------
+
+" Complete longest unambigous match, show menu even if only one match.
+" Include extra "preview" information in menu.
+" menu - use a popup menu to show completions.
+" menuone - use menu even when only one match.
+" longest - only insert longest common text of matches.
+" preview - use preview window to show extra information.
+set completeopt=longest,menuone
+
+" 'complete' controls which types of completion may be initiated by
+" pressing CTRL-n and CTRL-p.
+" . - Scans current buffer.
+" w - Scans buffers from other windows.
+" b - Scans loaded buffers in the buffer list.
+" u - Scans unloaded buffers in the buffer list.
+" U - Scans buffers not in the buffer list.
+" k - Scans the files given with the 'dictionary' option.
+" kspell - Use the active spell checking.
+" k{dict} - Scan the file {dict}.
+" s - Scan the files given with the 'thesaurus' option.
+" s{tsr} - Scan the file {tsr}.
+" i - Scan current and included files.
+" d - Scan current and included files for a defined name or macro.
+" ] - Tag completion.
+" t - Same as "]".
+" Default: .,w,b,u,t,i
+
+set complete=.,w,b,u,t,i
+
+
+
+" =============================================================
+
+" Search related setup
+" =============================================================
+
+" Enable incremental searching (searching as you type).
+set incsearch
+
+" Use case insensitive search, except when using capital letters
+set ignorecase
+set smartcase
+
+" Do not wrap around buffer when searching.
+set nowrapscan
+
+" set searching highlighting
+set hlsearch
+
+" In visual mode when you press * or # to search for the current selection
+vnoremap <silent> * :call VisualSearch('f')<CR>
+vnoremap <silent> # :call VisualSearch('b')<CR>
+" In visual mode when you press <leader>F to search for the current selection in many files.
+vnoremap <silent> <leader>F :call VisualSearch('gv')<CR>
+
+function! CmdLine(str)
+    exe "menu Foo.Bar :" . a:str
+    emenu Foo.Bar
+    unmenu Foo
+endfunction
+
+" From an idea by Michael Naumann
+function! VisualSearch(direction) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", '\\/.*$^~[]')
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'b'
+        execute "normal ?" . l:pattern . "^M"
+    elseif a:direction == 'gv'
+        call CmdLine("Ack! -iw -nobinary \"" . l:pattern . "\" <CR>")
+    elseif a:direction == 'f'
+        execute "normal /" . l:pattern . "^M"
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
+
+" Setup n and N for browsing to next or previous search match with automatic
+" scrolling to the center of the window.
+nnoremap n      nzz
+nnoremap N      Nzz
+
+
+
+" ==============================================================
+" Buffer manipulation
+" =============================================================
+
+" Allow buffers to be hidden even if they have changes.
+set hidden
+
+
+
+" =============================================================
+" Paste setup
+" =============================================================
+
+" Setup a key to toggle "paste" mode (toggles between :set paste
+" and :set nopaste by executing :set invpaste).
+nmap <silent> <F8> :set invpaste<CR>:set paste?<CR>   
+
+" Change default from unnamed register ('"') to the primary selection
+" register ("*") for general yank and put operations. Avoid autoselect mode.
+" Inspired by Tip #21.  Notice also you can append to a register and then
+" assign it to the primary selection (@*) or the clipboard (@+).  E.g.:
+"   :let @*=@a
+set clipboard=unnamed
+
+
 
 " =============================================================
 " status line setup
@@ -296,6 +339,7 @@ function! HasPaste()
         return ''
     endif
 endfunction
+
 
 
 " =============================================================
