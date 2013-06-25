@@ -102,12 +102,50 @@ colorscheme molokai
 syntax on
 
 
+" -------------------------------------------------------------
+" Setup wrapping for long lines
+" -------------------------------------------------------------
+
+" Enable wrapping of long lines.
+set wrap
+
+" set the search scan to wrap lines
+set wrapscan
+
+" Use the prompt ">   " for wrapped lines.
+let &showbreak="    "
+
+" Break lines at reasonable places instead of mid-word.
+set linebreak
+
+" The 'breakat' variable determines good places to break.
+" Defaults to line below:
+" set breakat=\ \^I!@*-+;:,./?
+
+" How far to scroll sideways when wrapping is off (:set nowrap).
+" When zero (the default), will scroll to the middle of the screen.
+" May use a small non-zero number for fast terminals.
+set sidescroll=0
+
+" Enable 'list' mode (:set list) to see non-visibles a la "reveal codes"
+" in the old Word Perfect.  In list mode, 'listchars' indicates
+" what to show.  Defaults to "eol:$", but has lots of features
+" (see :help 'listchars).
+" The "trail" setting means trailing whitespace.
+" The feature is too disconcerting to leave on, but pre-configure
+" listchars so :set list will do the right thing.
+"set list
+set listchars=trail:·,nbsp:·,extends:>,precedes:<,tab:▸\ ,eol:¬
+
+
+
 " ==============================================================
 " Buffer manipulation
 " =============================================================
 
 " Allow buffers to be hidden even if they have changes.
 set hidden
+
 
 " =============================================================
 " Paste setup
@@ -124,9 +162,15 @@ nmap <silent> <F8> :set invpaste<CR>:set paste?<CR>
 "   :let @*=@a
 set clipboard=unnamed
 
+
 " =============================================================
 " Search related setup
 " =============================================================
+
+" Setup n and N for browsing to next or previous search match with automatic
+" scrolling to the center of the window.
+nnoremap n      nzz
+nnoremap N      Nzz
 
 " Use case insensitive search, except when using capital letters
 set ignorecase
@@ -167,46 +211,69 @@ function! VisualSearch(direction) range
     let @" = l:saved_reg
 endfunction
 
+
 " =============================================================
 " Behavior setup
 " =============================================================
-"
-" =============================================================
-" not yet grouped 
-" =============================================================
-
-
-" With a map leader it's possible to do extra key combinations
-" like <leader>w saves the current file
-let mapleader = ","
-let g:mapleader = ","
-
-"---------------------------------------------------------------------------
-
-" Set 7 lines to the curors - when moving vertical..
-set so=7
-
-" Enable enhanced command-line completion. Presumes you have compiled
-" with +wildmenu.  See :help 'wildmenu'
-set wildmenu
-
-" show tailing
-"set listchars=trail:·
-"set list
-set listchars=trail:·,tab:▸\ ,eol:¬
 
 " Allow backspacing over indent, eol, and the start of an insert
-"set backspace=2
 set backspace=eol,start,indent
-set whichwrap+=<,>,h,l
 
 
-" Make the 'cw' and like commands put a $ at the end instead of just
-" deleting the text and replacing it
-set cpoptions=cesB$
+" Use Visual mode and avoid "Select" mode.
+set selectmode=
 
-" set ctrlp path
-set runtimepath^=~/.vim/bundle/ctrlp.vim
+" Don't move to start-of-line on page up/down, H, M, L, gg, G, etc.
+set nostartofline
+
+
+" 'inclusive' indicates to include the last character in a selection.
+" 'exclusive' excludes the final character in a selection.
+set selection=inclusive
+
+" Allow left/right movement keys to "wrap" to the previous/next line.
+" b - backspace key
+" s - space key
+" h - "h" (not recommended)
+" l - "l" (not recommended)
+" ~ - "~"
+" < - left arrow  (normal and visual modes)
+" > - right arrow (normal and visual modes)
+" [ - left arrow  (insert and replace modes)
+" ] - right arrow (insert and replace modes)
+set whichwrap=b,s,<,>,[,]
+
+" Setup command-line completion (inside of Vim's ':' command line).
+" Controlled by two options, 'wildmode' and 'wildmenu'.
+" `wildmode=full` completes the full word
+" `wildmode=longest` completes the longest unambiguous substring
+" `wildmode=list` lists all matches when ambiguous
+" When more than one mode is given, tries first mode on first keypress,
+" and subsequent modes thereafter.
+" `wildmode=longest,list` matches longest unambiguous, then shows list
+"   of matches on next keypress if match didn't grow longer.
+" If wildmenu is set, it will be used only when wildmode=full.
+
+set wildmode=longest,list
+
+" List of extensions to ignore when using wildcard matching.
+set wildignore=*.o,*.obj,*.a,*.lib,*.so,*~,*.bak,*.swp,tags,*.opt,*.ncb
+            \,*.plg,*.elf,cscope.out,*.ecc,*.exe,*.ilk
+            \,export,build,_build
+
+" Ignore some Python artifacts.
+set wildignore+=*.pyc,*.egg-info
+
+" Ignore some Linux-kernel artifacts.
+set wildignore+=*.ko,*.mod.c,*.order,modules.builtin
+
+" Ignore some java-related files.
+set wildignore+=*.class,classes/**,*.jar
+
+
+" =============================================================
+" status line setup
+" =============================================================
 
 " Always display the status line, even if only one window is displayed
 " Custom status line display
@@ -229,6 +296,30 @@ function! HasPaste()
         return ''
     endif
 endfunction
+
+
+" =============================================================
+" not yet grouped 
+" =============================================================
+
+
+" With a map leader it's possible to do extra key combinations
+" like <leader>w saves the current file
+let mapleader = ","
+let g:mapleader = ","
+
+"---------------------------------------------------------------------------
+
+" Set 7 lines to the curors - when moving vertical..
+set so=7
+
+" Make the 'cw' and like commands put a $ at the end instead of just
+" deleting the text and replacing it
+set cpoptions=cesB$
+
+" set ctrlp path
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+
 
 " Show the current mode
 set showmode
@@ -255,8 +346,6 @@ set mouse=a
 
 
 
-" set the search scan to wrap lines
-set wrapscan
 
 
 "use ack.vim
