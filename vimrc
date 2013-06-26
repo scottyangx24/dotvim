@@ -184,7 +184,7 @@ set whichwrap=b,s,<,>,[,]
 set wildmode=longest,list
 
 " List of extensions to ignore when using wildcard matching.
-set wildignore=*.o,*.obj,*.a,*.lib,*.so,*~,*.bak,*.swp,tags,*.opt,*.ncb
+set wildignore=*/tmp/*,*.o,*.obj,*.a,*.lib,*.zip,*.so,*~,*.bak,*.swp,tags,*.opt,*.ncb
             \,*.plg,*.elf,cscope.out,*.ecc,*.exe,*.ilk
             \,export,build,_build
 
@@ -775,8 +775,7 @@ au Syntax * RainbowParenthesesLoadSquare
 "-----------------------------------------------------------------------------
 "" ctrlP Plugin Settings
 "-----------------------------------------------------------------------------
-let g:ctrlp_regexp = 1
-let g:ctrlp_max_height = 10
+let g:ctrlp_max_height = 15
 let g:ctrlp_working_path_mode = ''
 let g:ctrlp_user_command = 'find %s -type f 
             \  -iname "*.php" 
@@ -790,6 +789,5 @@ let g:ctrlp_user_command = 'find %s -type f
             \  -o -iname "*.h"     
             \  -o -iname "*.c"     
             \  -o -iname "*.hpp"     
-            \  -o -iname "*.java"     
-            \  -o -iname "*.cpp"'     
-
+            \  -o -iname "*.cpp"     
+            \  -o -iname "*.java"'     
