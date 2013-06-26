@@ -244,7 +244,7 @@ set ignorecase
 set smartcase
 
 " Do not wrap around buffer when searching.
-set nowrapscan
+set wrapscan
 
 " set searching highlighting
 set hlsearch
@@ -415,17 +415,49 @@ hi MatchParen cterm=bold ctermbg=10 ctermfg=none
 """""""""""""""""""""""""""""
 " mapping stuff
 """""""""""""""""""""""""""""
-" disable arrow key in Normal/Insert Mode
-"nnoremap <up> <nop>
-"nnoremap <down> <nop>
-"nnoremap <left> <nop>
-"nnoremap <right> <nop>
-"inoremap <up> <nop>
-"inoremap <down> <nop>
-"inoremap <left> <nop>
-"inoremap <right> <nop>
-"nnoremap j gj
-"nnoremap k gk
+
+" Move vertically by screen lines instead of physical lines.
+" Exchange meanings for physical and screen motion keys.
+
+" When the popup menu is visible (pumvisible() is true), the up and
+" down arrows should not be mapped in order to preserve the expected
+" behavior when navigating the popup menu.  See :help ins-completion-menu
+" for details.
+
+" Down
+nnoremap j           gj
+xnoremap j           gj
+nnoremap <Down>      gj
+xnoremap <Down>      gj
+inoremap <silent> <Down> <C-R>=pumvisible() ? "\<lt>Down>" : "\<lt>C-o>gj"<CR>
+nnoremap gj          j
+xnoremap gj          j
+
+" Up
+nnoremap k           gk
+xnoremap k           gk
+nnoremap <Up>        gk
+xnoremap <Up>        gk
+inoremap <silent> <Up>   <C-R>=pumvisible() ? "\<lt>Up>" : "\<lt>C-o>gk"<CR>
+nnoremap gk          k
+xnoremap gk          k
+
+" Start of line
+nnoremap 0           g0
+xnoremap 0           g0
+nnoremap g0          0
+xnoremap g0          0
+nnoremap ^           g^
+xnoremap ^           g^
+nnoremap g^          ^
+xnoremap g^          ^
+
+" End of line
+nnoremap $           g$
+xnoremap $           g$
+nnoremap g$          $
+xnoremap g$          $
+
 
 " often times I hit Q instead of q when quit vim
 " this should fix the issue.
