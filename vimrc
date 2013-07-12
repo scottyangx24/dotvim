@@ -776,3 +776,5 @@ au Syntax * RainbowParenthesesLoadSquare
 "" ctrlP Plugin Settings
 "-----------------------------------------------------------------------------
 let g:ctrlp_working_path_mode = ''
+let g:ctrlp_regexp = 1
+let g:ctrlp_follow_symlinks = 0
