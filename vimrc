@@ -197,6 +197,9 @@ set wildignore+=*.ko,*.mod.c,*.order,modules.builtin
 " Ignore some java-related files.
 set wildignore+=*.class,classes/**,*.jar
 
+" Ignore some repository
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/* 
+
 " -------------------------------------------------------------
 " Completion
 " -------------------------------------------------------------
@@ -360,9 +363,6 @@ set so=7
 " Make the 'cw' and like commands put a $ at the end instead of just
 " deleting the text and replacing it
 set cpoptions=cesB$
-
-" set ctrlp path
-set runtimepath^=~/.vim/bundle/ctrlp.vim
 
 
 " Show the current mode
@@ -775,20 +775,4 @@ au Syntax * RainbowParenthesesLoadSquare
 "-----------------------------------------------------------------------------
 "" ctrlP Plugin Settings
 "-----------------------------------------------------------------------------
-let g:ctrlp_regexp = 1
-let g:ctrlp_max_height = 15
 let g:ctrlp_working_path_mode = ''
-let g:ctrlp_user_command = 'find %s -type f 
-            \  -iname "*.php" 
-            \  -o -iname "*.phtml"     
-            \  -o -iname "*.html"     
-            \  -o -iname "*.css"     
-            \  -o -iname "*.js"     
-            \  -o -iname "*.rb"     
-            \  -o -iname "*.sql"     
-            \  -o -iname "*.py"     
-            \  -o -iname "*.h"     
-            \  -o -iname "*.c"     
-            \  -o -iname "*.hpp"     
-            \  -o -iname "*.cpp"     
-            \  -o -iname "*.java"'     
