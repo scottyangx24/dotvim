@@ -766,3 +766,4 @@ let Tlist_Use_Right_Window = 1
 let g:ctrlp_working_path_mode = ''
 let g:ctrlp_regexp = 1
 let g:ctrlp_follow_symlinks = 0
+let g:ctrlp_clear_cache_on_exit = 0
