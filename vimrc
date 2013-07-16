@@ -3,11 +3,33 @@ set nocompatible
 
 
 " =============================================================
-" Pathogen plugin management
-" =============================================================
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-call pathogen#infect()
+filetype off                   " required!
 
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle
+" required! 
+Bundle 'gmarik/vundle'
+
+" my Bundles
+" color
+Bundle 'tomasr/molokai'
+Bundle 'peaksea'
+
+"fuzzy search
+Bundle 'kien/ctrlp.vim'
+
+
+Bundle 'Spaceghost/vim-matchit'
+Bundle 'scrooloose/nerdtree'
+Bundle 'tsaleh/vim-align'
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-surround'
+
+
+
+" =============================================================
 
 " Keep some stuff in the history
 set history=500
@@ -74,7 +96,6 @@ set fileencodings=ucs-bom,utf-8,default,latin1
 
 " Set filetype stuff to on
 filetype plugin indent on
-
 
 " =============================================================
 " Display settings
@@ -736,39 +757,6 @@ let NERDTreeIgnore=[ '\.ncb$', '\.suo$', '\.vcproj\.RIMNET', '\.obj$',
 "-----------------------------------------------------------------------------
 nnoremap <silent> <F6> :TlistToggle<CR>
 let Tlist_Use_Right_Window = 1
-
-
-
-"-----------------------------------------------------------------------------
-"" RainbowParentheses Plugin Settings
-"-----------------------------------------------------------------------------
-let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Darkblue',    'SeaGreen3'],
-    \ ['darkgray',    'DarkOrchid3'],
-    \ ['darkgreen',   'firebrick3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['darkred',     'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown',       'firebrick3'],
-    \ ['gray',        'RoyalBlue3'],
-    \ ['black',       'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['Darkblue',    'firebrick3'],
-    \ ['darkgreen',   'RoyalBlue3'],
-    \ ['darkcyan',    'SeaGreen3'],
-    \ ['darkred',     'DarkOrchid3'],
-    \ ['red',         'firebrick3'],
-    \ ]
-
-let g:rbpt_max = 16
-
-let g:rbpt_loadcmd_toggle = 0
-
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-"au Syntax * RainbowParenthesesLoadBraces
 
 
 
