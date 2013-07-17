@@ -23,11 +23,11 @@ Bundle 'kien/ctrlp.vim'
 
 Bundle 'Spaceghost/vim-matchit'
 Bundle 'scrooloose/nerdtree'
-Bundle 'scrooloose/nerdcommenter'
 Bundle 'tsaleh/vim-align'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-surround'
 
+Bundle 'comments.vim'
 
 
 " =============================================================
