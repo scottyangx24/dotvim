@@ -740,25 +740,16 @@ iab Fone      Phone
 "" NERD Tree Plugin Settings
 "-----------------------------------------------------------------------------
 "" Toggle the NERD Tree on an off with F5
-nmap <F5> :NERDTreeFind<CR>
+nnoremap <silent> <F5> :NERDTreeFind<CR>
 
-" Close the NERD Tree with Shift-F5
-nmap <S-F5> :NERDTreeClose<CR>
+" Close the NERD Tree with F6
+nnoremap <silent> <F6> :NERDTreeClose<CR>
 
 " Don't display these kinds of files
 let NERDTreeIgnore=[ '\.ncb$', '\.suo$', '\.vcproj\.RIMNET', '\.obj$',
                      \ '\.ilk$', '^BuildLog.htm$', '\.pdb$', '\.idb$',
                      \ '\.embed\.manifest$', '\.embed\.manifest.res$',
                      \ '\.intermediate\.manifest$', '^mt.dep$' ]
-
-
-
-"-----------------------------------------------------------------------------
-"" Taglist Plugin Settings
-"-----------------------------------------------------------------------------
-nnoremap <silent> <F6> :TlistToggle<CR>
-let Tlist_Use_Right_Window = 1
-
 
 
 "-----------------------------------------------------------------------------
