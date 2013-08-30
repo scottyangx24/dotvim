@@ -16,17 +16,19 @@ Bundle 'gmarik/vundle'
 " color
 Bundle 'tomasr/molokai'
 Bundle 'peaksea'
+Bundle 'altercation/vim-colors-solarized'
 
 "fuzzy search
 Bundle 'kien/ctrlp.vim'
 
+"vim-airline
+Bundle 'bling/vim-airline'
 
 Bundle 'Spaceghost/vim-matchit'
 Bundle 'scrooloose/nerdtree'
 Bundle 'tsaleh/vim-align'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-surround'
-
 Bundle 'comments.vim'
 
 
@@ -119,10 +121,14 @@ set cmdheight=2
 set showcmd
 
 " Enable syntax highlighting
-set t_Co=256
-colorscheme molokai
-let g:rehash256 = 1
+"set t_Co=256
+"colorscheme molokai
+"let g:rehash256 = 1
 syntax on
+set t_Co=256
+set background=dark
+let g:solarized_termtrans=1
+colorscheme solarized
 
 
 " -------------------------------------------------------------
@@ -347,24 +353,24 @@ set clipboard=unnamed
 " Always display the status line, even if only one window is displayed
 " Custom status line display
 set laststatus=2
+
 " Format the statusline
 "set stl=%f\ %m\ %r\ Line:%l/%L[%p%%]\ Col:%c\ Buf:%n\ [%b][0x%B]
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ \ Line:\ %l/%L[%p%%]\ Col:%c\ Buf:%n\ [%b][0x%B]
-hi statusline term=NONE cterm=NONE ctermfg=white ctermbg=black
+"set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ \ Line:\ %l/%L[%p%%]\ Col:%c\ Buf:%n\ [%b][0x%B]
+"hi statusline term=NONE cterm=NONE ctermfg=white ctermbg=black
 
-
-function! CurDir()
-    let curdir = substitute(getcwd(), '/Users/amir/', "~/", "g")
-    return curdir
-endfunction
-
-function! HasPaste()
-    if &paste
-        return 'PASTE MODE  '
-    else
-        return ''
-    endif
-endfunction
+"function! CurDir()
+    "let curdir = substitute(getcwd(), '/home/scott/', "~/", "g")
+    "return curdir
+"endfunction
+"
+"function! HasPaste()
+    "if &paste
+        "return 'PASTE MODE  '
+    "else
+        "return ''
+    "endif
+"endfunction
 
 
 
@@ -389,7 +395,7 @@ set cpoptions=cesB$
 
 
 " Show the current mode
-set showmode
+set noshowmode
 
 " Show briefly matching bracket when closing it.
 set showmatch
@@ -760,3 +766,20 @@ let g:ctrlp_working_path_mode = ''
 let g:ctrlp_regexp = 1
 let g:ctrlp_follow_symlinks = 0
 let g:ctrlp_user_command = "find %s -type f | egrep -v '/\.(git|hg|svn)|solr|tmp/' | egrep -v '\.(png|exe|jpg|gif|jar|class|swp|swo|log|gitkep|keepme|so|o)$'"
+
+"-----------------------------------------------------------------------------
+"" vim-airline Plugin Settings
+"-----------------------------------------------------------------------------
+let g:airline_symbols = {}
+
+" unicode symbols
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '◀'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.whitespace = 'Ξ'
+
+" section customize
+let g:airline_section_c = '%F%m%r%h'
+let g:airline_section_x = '%{getcwd()}'
