@@ -24,6 +24,9 @@ Bundle 'kien/ctrlp.vim'
 "vim-airline
 Bundle 'bling/vim-airline'
 
+"grep using ag
+Bundle 'rking/ag.vim'
+
 Bundle 'Spaceghost/vim-matchit'
 Bundle 'scrooloose/nerdtree'
 Bundle 'tsaleh/vim-align'
@@ -284,8 +287,8 @@ set hlsearch
 " In visual mode when you press * or # to search for the current selection
 vnoremap <silent> * :call VisualSearch('f')<CR>
 vnoremap <silent> # :call VisualSearch('b')<CR>
-" In visual mode when you press <leader>F to search for the current selection in many files.
-vnoremap <silent> <leader>F :call VisualSearch('gv')<CR>
+" In visual mode when you press ff to search for the current selection in many files.
+vnoremap <silent> ff :call VisualSearch('gv')<CR>
 
 function! CmdLine(str)
     exe "menu Foo.Bar :" . a:str
@@ -304,7 +307,7 @@ function! VisualSearch(direction) range
     if a:direction == 'b'
         execute "normal ?" . l:pattern . "^M"
     elseif a:direction == 'gv'
-        call CmdLine("Ack! -iw -nobinary \"" . l:pattern . "\" <CR>")
+        call CmdLine("Ag! -iw \"" . l:pattern . "\" <CR>")
     elseif a:direction == 'f'
         execute "normal /" . l:pattern . "^M"
     endif
@@ -416,13 +419,6 @@ set smartindent
 
 " Enable use of the mouse for all modes
 set mouse=a
-
-
-
-
-
-"use ack.vim
-let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 
 
 " if in diff mode (vimdiff) use the peaksea color scheme
@@ -577,9 +573,9 @@ noremap <F9> :set hlsearch! hlsearch?<CR>
 
 
 "-----------------------------------------------------------------------------
-" mapping for ack-grep, searching for word under cursor
+" mapping for ag, searching for word under cursor
 "-----------------------------------------------------------------------------
-nnoremap <leader>F :Ack! -iw --nobinary <C-R><C-W><CR>
+nnoremap ff :Ag! -iw <C-R><C-W><CR>
 
 "-----------------------------------------------------------------------------                            
 "Enable and disable mouse use                                                                             
@@ -783,3 +779,8 @@ let g:airline_symbols.whitespace = 'Ξ'
 " section customize
 let g:airline_section_c = '%F%m%r%h'
 let g:airline_section_x = '%{getcwd()}'
+
+"-----------------------------------------------------------------------------
+"" ag.vim Settings
+"-----------------------------------------------------------------------------
+let g:agprg='ag --nogroup --nocolor --column'
