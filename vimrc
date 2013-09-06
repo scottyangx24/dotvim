@@ -780,6 +780,9 @@ let g:airline_symbols.whitespace = 'Ξ'
 let g:airline_section_c = '%F%m%r%h'
 let g:airline_section_x = '%{getcwd()}'
 
+" disable whitespace warning
+let g:airline#extensions#whitespace#enabled = 0
+
 "-----------------------------------------------------------------------------
 "" ag.vim Settings
 "-----------------------------------------------------------------------------
