@@ -288,7 +288,8 @@ set hlsearch
 vnoremap <silent> * :call VisualSearch('f')<CR>
 vnoremap <silent> # :call VisualSearch('b')<CR>
 " In visual mode when you press ff to search for the current selection in many files.
-vnoremap <silent> ff :call VisualSearch('gv')<CR>
+vnoremap <silent> <leader>s :call VisualSearch('gv')<CR>
+vnoremap <silent> <leader>F :call VisualSearch('giv')<CR>
 
 function! CmdLine(str)
     exe "menu Foo.Bar :" . a:str
@@ -307,6 +308,8 @@ function! VisualSearch(direction) range
     if a:direction == 'b'
         execute "normal ?" . l:pattern . "^M"
     elseif a:direction == 'gv'
+        call CmdLine("Ag! -w \"" . l:pattern . "\" <CR>")
+    elseif a:direction == 'giv'
         call CmdLine("Ag! -iw \"" . l:pattern . "\" <CR>")
     elseif a:direction == 'f'
         execute "normal /" . l:pattern . "^M"
@@ -515,9 +518,6 @@ nmap <leader>7 "7p
 nmap <leader>8 "8p
 nmap <leader>9 "9p
 
-" shortcut to toggle spelling
-nmap <leader>s :setlocal spell! spelllang=en_us<CR>
-
 " shortcuts to open/close the quickfix window
 nmap <leader>c :copen<CR>
 nmap <leader>cc :cclose<CR>
@@ -575,7 +575,8 @@ noremap <F9> :set hlsearch! hlsearch?<CR>
 "-----------------------------------------------------------------------------
 " mapping for ag, searching for word under cursor
 "-----------------------------------------------------------------------------
-nnoremap ff :Ag! -iw <C-R><C-W><CR>
+nnoremap <leader>s :Ag! -w <C-R><C-W><CR>
+nnoremap <leader>F :Ag! -iw <C-R><C-W><CR>
 
 "-----------------------------------------------------------------------------                            
 "Enable and disable mouse use                                                                             
