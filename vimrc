@@ -32,6 +32,7 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'tsaleh/vim-align'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-fugitive'
 Bundle 'comments.vim'
 
 
