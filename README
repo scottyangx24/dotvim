@@ -12,4 +12,9 @@ Create symlinks:
     ln -s ~/.vim/vimrc ~/.vimrc
     ln -s ~/.vim/gvimrc ~/.gvimrc
 
+get vundle
+
+    mkdir bundle
+    cd bundle
+    git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 
