@@ -815,7 +815,7 @@ let NERDTreeIgnore=[ '\.ncb$', '\.suo$', '\.vcproj\.RIMNET', '\.obj$',
 let g:ctrlp_working_path_mode = ''
 let g:ctrlp_regexp = 1
 let g:ctrlp_follow_symlinks = 0
-let g:ctrlp_user_command = "find %s -type f | egrep -v '/\.(git|hg|svn)|solr|tmp/' | egrep -v '\.(png|exe|jpg|gif|jar|class|swp|swo|log|gitkep|keepme|so|o|d|gcda|gcov)$'"
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 
 "-----------------------------------------------------------------------------
 "" vim-airline Plugin Settings
