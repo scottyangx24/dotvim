@@ -21,6 +21,12 @@ Bundle 'altercation/vim-colors-solarized'
 "fuzzy search
 Bundle 'kien/ctrlp.vim'
 
+"phpcomplete
+Bundle 'shawncplus/phpcomplete.vim'
+
+"supertab
+Bundle 'ervandew/supertab'
+
 "vim-airline
 Bundle 'bling/vim-airline'
 
@@ -841,3 +847,9 @@ let g:airline#extensions#whitespace#enabled = 0
 "" ag.vim Settings
 "-----------------------------------------------------------------------------
 let g:agprg='ag --nogroup --nocolor --column'
+
+"-----------------------------------------------------------------------------
+"" phpcomplete Settings
+"-----------------------------------------------------------------------------
+autocmd  FileType  php setlocal omnifunc=phpcomplete#CompletePHP
+let g:SuperTabDefaultCompletionType = "context"
